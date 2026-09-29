@@ -1,17 +1,19 @@
+import "dotenv/config";
 import axios from "axios";
 
 class MpesaService {
   constructor() {
-    // Hard-coded sandbox credentials
-    this.consumerKey = "sdCY0bVnFTwZ6hDn3ycRg92HQsRkn3w6AGfiBtms5aLUAHdx";
-    this.consumerSecret = "fK1xqywWGDQ0AsLG7iZruoxri9GKxJACnfTaxRlEvc8pbcv7JQUbJE13ruleiyNj";
-    this.businessShortCode = "174379";
-    this.passkey =
-      "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919";
-    this.callbackUrl =
-      "https://dbdae4535bec.ngrok-free.app/api/payments/callback";
+    // Daraja credentials come from the environment (.env); see .env.example.
+    this.consumerKey = process.env.MPESA_CONSUMER_KEY;
+    this.consumerSecret = process.env.MPESA_CONSUMER_SECRET;
+    this.businessShortCode = process.env.MPESA_SHORTCODE;
+    this.passkey = process.env.MPESA_PASSKEY;
+    this.callbackUrl = process.env.MPESA_CALLBACK_URL;
 
-    this.baseUrl = "https://sandbox.safaricom.co.ke";
+    this.baseUrl =
+      process.env.MPESA_ENV === "production"
+        ? "https://api.safaricom.co.ke"
+        : "https://sandbox.safaricom.co.ke";
     this.accessToken = null;
     this.tokenExpiry = null;
   }
